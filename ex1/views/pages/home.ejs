@@ -1,0 +1,34 @@
+<!-- views/pages/home.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+  <script src="jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body>
+    <div>Test</div>
+    <!-- Using the variable a passed to the render function in the server router -->
+    <!-- Using ejs template syntax -->
+    <div><%= myCoolVar %></div>
+    <!-- Using just javascript -->
+    <div id="myElem"></div>
+    <script>
+      // Setting the variable like this because the variable passed by the router is only available
+      // in on the template, but to use it in javascript, which is run in the clients browser I need
+      // to insert it into the document in a way that after the template engine generates the html
+      // document the it looks like I hard coded the variable
+      // So, after this file goes through the template engine this next line will look like:
+      // var myVar = "This is a cool string";
+      var myVar = "<%= myCoolVar %>";
+      var elem = document.getElementById('myElem');
+      elem.innerHTML += myVar;
+    </script>
+
+</body>
+</html>

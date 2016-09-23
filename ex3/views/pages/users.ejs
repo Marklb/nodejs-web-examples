@@ -1,0 +1,45 @@
+<!-- views/pages/users.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+
+  <script src="jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body>
+    <div>Users:</div>
+    <!-- I would normally have my javascript in .js files, but putting it here for small examples -->
+    <script>
+    // Using the names api from client side javascript
+    $.getJSON('/api/names', function(data){
+      // console.log(data); // This will print the full returned object in the browser devtools console.
+
+      var newHtmlSegment = '';
+      // Iterating each key value pair in the json and creating an html string
+      // that I will add the the html page dynamically in the page from the
+      // clients browser.
+      $.each(data, function(key, val){
+        newHtmlSegment += '<div>'+val.name+'</div>';
+      });
+
+      document.body.innerHTML += newHtmlSegment;
+      // document is the <body> tag of the html page
+      // innerHTML is everything inside the body tags as a string, so when I
+      // append to that string the browser will reparse either the full document
+      // or just that new substring that ws added depending on the browsers
+      // implementation. Hardly ever will you actually have to care how it is
+      // handeled. It is just a simple way to add new html. It does not
+      // guarantee that the new code you are adding is safe though, so if the
+      // user is able to type what gets appended you should use another method
+      // that is safe.
+    });
+    </script>
+
+
+</body>
+</html>
