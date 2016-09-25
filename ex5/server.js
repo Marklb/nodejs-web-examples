@@ -24,17 +24,20 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 
+// Node modules with resources needed
+// **Once we get started on the project I think using a build tool would be better, which would
+//     eliminate the need to have these resources available, since they would be built into the
+//     single js bundle built by the tool.
+app.use(express.static(__dirname + '/node_modules/react/dist'));
+app.use(express.static(__dirname + '/node_modules/react-dom/dist'));
 
 
 //=============================================================
-// home page
+// Home page
 //=============================================================
 function GET_homeRoute(req, res){
   // the render function causes express to use the templating engine
-  res.render('pages/home', {
-    myCoolVar: "This is a cool string",
-    someNumber: 2391,
-  });
+  res.render('pages/home');
 };
 app.get('/', GET_homeRoute);
 app.get('/index', GET_homeRoute);
@@ -42,18 +45,20 @@ app.get('/home', GET_homeRoute);
 
 
 //=============================================================
+// Users page
+//=============================================================
+app.get('/users', function(req, res){
+  // Not going to pass any variables to the template in this example
+  res.render('pages/users');
+});
+
+
+//=============================================================
 // Database API
 //=============================================================
 app.get('/api/names', dbApi.getNames);
+app.post('/api/add-name', dbApi.addName);
 app.get('/api/colors', dbApi.getColors);
-// Access the data from these api calls with routes:
-// localhost:3050/api/names
-// localhost:3050/api/colors
-
-// app.get('/api/names', function(req, res) {
-//   // Send will just send the string directly without using the template engine
-//   res.send('Bob, Joe, Steve');
-// });
 
 
 //=============================================================

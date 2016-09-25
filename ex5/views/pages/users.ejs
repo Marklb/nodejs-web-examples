@@ -1,0 +1,81 @@
+<!-- views/pages/users.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+
+  <script src="jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+<body>
+    <!-- Add user -->
+    <div class="add-user">
+      Name:
+      <input class="add-user-input" type="text" name="username" value="John">
+      <button class='add-user-btn'>Add User</button>
+    </div>
+
+    <!-- Users List -->
+    <div class="users-list">
+      <div class="title">Users</div>
+      <button class="refresh-btn" click="loadUsersList();">Refresh</button>
+      <div class="users">No Users</div>
+    </div>
+
+
+
+    <!-- I would normally have my javascript in .js files, but putting it here for small examples -->
+    <script>
+    var loadUsersList = function(){
+      $.getJSON('/api/names', function(data){
+        var newHtmlSegment = '';
+        $.each(data, function(key, val){
+          newHtmlSegment += '<div>'+val.name+'</div>';
+        });
+
+        var elem = document.body.querySelector('.users-list .users');
+        // This is not a good way to reset the contents of an element, but it is
+        // an easy way that works most of the time, so I am using it for the
+        // example, since I am not trying to show the best way of doing stuff.
+        elem.innerHTML = newHtmlSegment;
+      });
+    };
+
+    // Adding a click event listener to my button with javascript
+    var refreshBtnElem = document.body.querySelector('.users-list .refresh-btn');
+    refreshBtnElem.addEventListener('mousedown', function(event){
+      loadUsersList();
+    });
+
+    // Send new username to the api
+    var addUser = function(name){
+      $.post('/api/add-name', {'username': name}, function(data){
+        console.log(data);
+        // If you want to update the names list after a successful add uncomment
+        // this if block
+        // if(data == 'Success'){
+        //   loadUsersList();
+        // }
+      })
+    }
+
+    // Adding a click event listener to my button with javascript
+    var addUserBtnElem = document.body.querySelector('.add-user .add-user-btn');
+    addUserBtnElem.addEventListener('mousedown', function(event){
+      var inputElem = document.body.querySelector('.add-user .add-user-input');
+      addUser(inputElem.value);
+    });
+
+
+    // Going to call this function once when this script is loaded
+    // It can then be called again later to refresh the list after adding a user
+    loadUsersList();
+    </script>
+
+
+</body>
+</html>
