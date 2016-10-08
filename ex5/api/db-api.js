@@ -26,6 +26,7 @@ var dbApi = {
       res.json(row);
     });
   },
+
   addName: function(req, res) {
     var name = req.body.username;
     db.run("INSERT INTO UserNames (name) VALUES (?)", [name], function(err){
@@ -34,6 +35,7 @@ var dbApi = {
       res.send('Success');
     });
   },
+
   getColors: function(req, res) {
     // send() will just send the string directly without using the template engine
     res.send('Blue, Green, Purple, Red');

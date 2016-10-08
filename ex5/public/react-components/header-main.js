@@ -6,6 +6,19 @@
 var HeaderMain = React.createClass({
   displayName: "HeaderMain",
 
+  getUsersNames: function() {
+    $.getJSON('/api/names', function(data){
+      var elem = document.querySelector('#usernames-block');
+      elem.innerHTML = JSON.stringify(data);
+    });
+  },
+
+  renderJsonResponse: function() {
+    return (
+      <div id="usernames-block">No Names</div>
+    );
+  },
+
   /*
   This is where you put the html-like syntax that JSX will use to build the html of the React
   component.
@@ -23,7 +36,7 @@ var HeaderMain = React.createClass({
 
         <div className="right-btn login">Log In</div>
         <div className="right-btn signup">Sign Up</div>
-        <div className="right-btn help">Help</div>
+        <div className="right-btn help" onClick={this.onClickHelp.bind(this)}>Help</div>
         <div className="right-btn become-a-host">
           <div>Become a Host</div>
         </div>
@@ -36,9 +49,21 @@ var HeaderMain = React.createClass({
             </div>
           </form>
         </div>
+
+        <div className="json-example-block">
+          {this.renderJsonResponse()}
+        </div>
       </div>
     );
-  }
+  },
+
+  onClickHelp: function() {
+    console.log('Clicked help');
+    this.getUsersNames();
+
+  },
+
 });
 
-ReactDOM.render(<HeaderMain  />, document.body);
+// ReactDOM.render(<HeaderMain  />, document.body);
+ReactDOM.render(React.createElement(HeaderMain, {usernames: "No Name"}), document.body);

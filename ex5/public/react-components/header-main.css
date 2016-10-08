@@ -164,3 +164,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+.json-example-block{
+  position: absolute;
+  top: 100px;
+  left: 200px;
+  width: 800px;
+  height: 200px;
+  background-color: rgba(200,200,200,1);
+}
